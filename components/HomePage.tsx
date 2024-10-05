@@ -18,11 +18,13 @@ import Diya from "@/public/Diya.jpg";
 import Lantern from "@/public/Lantern.jpg";
 import Link from "next/link";
 
+import { StaticImageData } from "next/image";
+
 interface Product {
   id: number;
   name: string;
   price: number;
-  image: string;
+  image: StaticImageData;
 }
 
 interface CartItem extends Product {
