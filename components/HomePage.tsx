@@ -9,6 +9,7 @@ import {
   ShoppingCart,
   Search,
   X,
+  Menu,
 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -48,6 +49,7 @@ const NavItem = ({
     <span className="font-medium">{text}</span>
   </Link>
 );
+
 const ProductCard = ({
   product,
   addToCart,
@@ -71,7 +73,7 @@ const ProductCard = ({
       <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
       <p className="text-yellow-400 font-bold">₹{product.price.toFixed(2)}</p>
       <button
-        type="submit"
+        type="button"
         onClick={() => addToCart(product)}
         className="mt-4 w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity"
       >
@@ -81,21 +83,19 @@ const ProductCard = ({
   </motion.div>
 );
 
-interface CartSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-  cartItems: CartItem[];
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, newQuantity: number) => void;
-}
-
 const CartSidebar = ({
   isOpen,
   onClose,
   cartItems,
   removeFromCart,
   updateQuantity,
-}: CartSidebarProps) => (
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  cartItems: CartItem[];
+  removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, newQuantity: number) => void;
+}) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
@@ -109,7 +109,7 @@ const CartSidebar = ({
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Your Cart</h2>
             <button
-              type="submit"
+              type="button"
               onClick={onClose}
               className="text-gray-500 hover:text-white"
               title="Close"
@@ -188,12 +188,11 @@ const CartSidebar = ({
   </AnimatePresence>
 );
 
-interface Review {
-  name: string;
-  text: string;
-}
-
-const ReviewCarousel = ({ reviews }: { reviews: Review[] }) => {
+const ReviewCarousel = ({
+  reviews,
+}: {
+  reviews: { name: string; text: string }[];
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -232,26 +231,12 @@ const ReviewCarousel = ({ reviews }: { reviews: Review[] }) => {
 export default function HomePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const products: Product[] = [
-    {
-      id: 1,
-      name: "Royal Diya",
-      price: 49.99,
-      image: Diya,
-    },
-    {
-      id: 2,
-      name: "Luxury Rangoli Kit",
-      price: 99.9,
-      image: Rangoli,
-    },
-    {
-      id: 3,
-      name: "Designer Lantern",
-      price: 699.9,
-      image: Lantern,
-    },
+    { id: 1, name: "Royal Diya", price: 49.99, image: Diya },
+    { id: 2, name: "Luxury Rangoli Kit", price: 99.9, image: Rangoli },
+    { id: 3, name: "Designer Lantern", price: 699.9, image: Lantern },
   ];
 
   const reviews = [
@@ -308,10 +293,11 @@ export default function HomePage() {
       );
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-black text-white">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-md transition-transform duration-300 ease-in-out">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <Link
               href="/"
@@ -319,7 +305,7 @@ export default function HomePage() {
             >
               Diwali Luxe
             </Link>
-            <div className="flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               <NavItem
                 icon={<Home className="w-6 h-6" />}
                 text="Home"
@@ -358,8 +344,72 @@ export default function HomePage() {
                 )}
               </button>
             </div>
+            <div className="md:hidden flex items-center">
+              <button
+                className="text-white p-2"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+            </div>
           </div>
         </div>
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="md:hidden"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                <NavItem
+                  icon={<Home className="w-6 h-6" />}
+                  text="Home"
+                  l_text="/"
+                />
+                <NavItem
+                  icon={<Info className="w-6 h-6" />}
+                  text="About"
+                  l_text="/about"
+                />
+                <NavItem
+                  icon={<MessageCircle className="w-6 h-6" />}
+                  text="Contact"
+                  l_text="/contact"
+                />
+                <div className="relative mt-3">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="w-full bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                </div>
+                <button
+                  type="button"
+                  className="w-full mt-3 bg-yellow-400 text-black rounded-full p-2 relative flex items-center justify-center"
+                  onClick={() => {
+                    setIsCartOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  <span>Cart</span>
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {cartItems.reduce(
+                        (total, item) => total + item.quantity,
+                        0
+                      )}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
       <CartSidebar
         isOpen={isCartOpen}
@@ -368,135 +418,143 @@ export default function HomePage() {
         removeFromCart={removeFromCart}
         updateQuantity={updateQuantity}
       />
-      <section className="pt-32 pb-20">
-        <div className="container mx-auto px-4">
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-8 md:p-16 flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <motion.h1
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500"
-              >
-                Elevate Your Diwali
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-xl md:text-2xl mb-8 text-gray-300"
-              >
-                Discover our exquisite collection of premium Diwali decor and
-                gifts online from &quot;<b>Diwali Luxe</b>&quot;
-              </motion.p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-3 px-8 rounded-full text-lg"
-              >
-                Shop Now
-              </motion.button>
-            </div>
-            <div className="md:w-1/2">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={HomeImage}
-                  alt="Luxury Diwali Decor"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
-            Featured Collections
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                addToCart={addToCart}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-8 md:p-16">
-            <h2 className="text-4xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
-              Exclusive Diwali Offers
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-gradient-to-br from-yellow-400 to-pink-500 rounded-lg p-6 text-black">
-                <h3 className="text-2xl font-bold mb-4">Buy 2 Get 1 Free</h3>
-                <p className="mb-4">On all premium diyas and candles</p>
-                <button className="bg-black text-white font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
+      <main className="pt-24">
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12 flex flex-col md:flex-row items-center">
+              <div className="md:w-1/2 mb-8 md:mb-0">
+                <motion.h1
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500"
+                >
+                  Elevate Your Diwali
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                  className="text-base md:text-lg lg:text-xl xl:text-2xl mb-6 md:mb-8 text-gray-300"
+                >
+                  Discover our exquisite collection of premium Diwali decor and
+                  gifts online from &quot;<b>Diwali Luxe</b>&quot;
+                </motion.p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full text-base md:text-lg"
+                >
                   Shop Now
-                </button>
+                </motion.button>
               </div>
-              <div className="bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg p-6 text-white">
-                <h3 className="text-2xl font-bold mb-4">20% Off on Decor</h3>
-                <p className="mb-4">
-                  Luxurious wall hangings and table decorations
-                </p>
-                <button className="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
-                  Explore
-                </button>
+              <div className="md:w-1/2">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  className="relative w-full h-auto sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg overflow-hidden"
+                >
+                  <Image
+                    src={HomeImage}
+                    alt="Luxury Diwali Decor"
+                    layout="responsive"
+                    width={450}
+                    height={450}
+                    objectFit="cover"
+                    className="custom-image-position md:object-center"
+                  />
+                </motion.div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
-            What Our Customers Say
-          </h2>
-          <ReviewCarousel reviews={reviews} />
-        </div>
-      </section>
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-8 md:p-16 text-center">
-            <h2 className="text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
-              Stay Illuminated
+        </section>
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+              Featured Collections
             </h2>
-            <p className="text-xl mb-8 text-gray-300">
-              Subscribe to our newsletter for exclusive offers and Diwali
-              inspiration
-            </p>
-            <form className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className=" text-black bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-3 px-6 w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity"
-                onClick={function (event) {
-                  event.preventDefault();
-                  alert("Thank you for subscribing!");
-                }}
-              >
-                Subscribe
-              </button>
-            </form>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  addToCart={addToCart}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+                Exclusive Diwali Offers
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                <div className="bg-gradient-to-br from-yellow-400 to-pink-500 rounded-lg p-6 text-black">
+                  <h3 className="text-xl md:text-2xl font-bold mb-4">
+                    Buy 2 Get 1 Free
+                  </h3>
+                  <p className="mb-4">On all premium diyas and candles</p>
+                  <button className="bg-black text-white font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
+                    Shop Now
+                  </button>
+                </div>
+                <div className="bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg p-6 text-white">
+                  <h3 className="text-xl md:text-2xl font-bold mb-4">
+                    20% Off on Decor
+                  </h3>
+                  <p className="mb-4">
+                    Luxurious wall hangings and table decorations
+                  </p>
+                  <button className="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+              What Our Customers Say
+            </h2>
+            <ReviewCarousel reviews={reviews} />
+          </div>
+        </section>
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12 text-center">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+                Stay Illuminated
+              </h2>
+              <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 text-gray-300">
+                Subscribe to our newsletter for exclusive offers and Diwali
+                inspiration
+              </p>
+              <form className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  className="text-black bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 md:py-3 md:px-6 w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full hover:opacity-90 transition-opacity"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    alert("Thank you for subscribing!");
+                  }}
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
