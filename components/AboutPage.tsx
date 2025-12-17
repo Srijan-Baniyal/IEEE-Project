@@ -15,7 +15,7 @@ const NavItem = ({
 }) => (
   <Link
     href={l_text}
-    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-gradient-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
+    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-linear-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
   >
     {icon}
     <span className="font-medium">{text}</span>
@@ -26,13 +26,13 @@ export default function AboutPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-black text-white">
+    <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-md transition-transform duration-300 ease-in-out">
         <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <Link
               href="/"
-              className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500 tracking-wide"
+              className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500 tracking-wide"
             >
               Diwali Luxe
             </Link>
@@ -82,7 +82,7 @@ export default function AboutPage() {
         )}
       </nav>
       <div className="flex flex-col justify-center items-center min-h-screen space-y-8 sm:space-y-12 px-4 text-center pt-20 sm:pt-0">
-        <div className="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-pink-500 drop-shadow-md">
+        <div className="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-linear-to-r from-yellow-400 to-pink-500 drop-shadow-md">
           About Diwali Luxe
         </div>
         <div className="max-w-3xl text-base sm:text-lg leading-relaxed tracking-wide text-white/80">

@@ -43,7 +43,7 @@ const NavItem = ({
 }) => (
   <Link
     href={l_text}
-    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-gradient-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
+    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-linear-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
   >
     {icon}
     <span className="font-medium">{text}</span>
@@ -75,7 +75,7 @@ const ProductCard = ({
       <button
         type="button"
         onClick={() => addToCart(product)}
-        className="mt-4 w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity"
+        className="mt-4 w-full bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity"
       >
         Add to Cart
       </button>
@@ -132,7 +132,7 @@ const CartSidebar = ({
                       alt={item.name}
                       width={50}
                       height={50}
-                      className="rounded"
+                      className="rounded-sm"
                     />
                     <div className="ml-4">
                       <h3 className="font-semibold">{item.name}</h3>
@@ -176,7 +176,7 @@ const CartSidebar = ({
                     )
                     .toFixed(2)}
                 </p>
-                <button className="mt-4 w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity">
+                <button className="mt-4 w-full bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity">
                   Checkout
                 </button>
               </div>
@@ -212,7 +212,7 @@ const ReviewCarousel = ({
         {reviews.map((review, index) => (
           <motion.div
             key={index}
-            className="flex-shrink-0 w-full md:w-1/3 p-4"
+            className="shrink-0 w-full md:w-1/3 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -295,13 +295,13 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-black text-white">
+    <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-md transition-transform duration-300 ease-in-out">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <Link
               href="/"
-              className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500 tracking-wide"
+              className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500 tracking-wide"
             >
               Diwali Luxe
             </Link>
@@ -325,7 +325,7 @@ export default function HomePage() {
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               </div>
@@ -383,7 +383,7 @@ export default function HomePage() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="w-full bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    className="w-full bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                   />
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 </div>
@@ -427,7 +427,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: -50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500"
+                  className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-linear-to-r from-yellow-400 via-red-500 to-pink-500"
                 >
                   Elevate Your Diwali
                 </motion.h1>
@@ -443,7 +443,7 @@ export default function HomePage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full text-base md:text-lg"
+                  className="bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full text-base md:text-lg"
                 >
                   Shop Now
                 </motion.button>
@@ -471,7 +471,7 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
               Featured Collections
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -488,11 +488,11 @@ export default function HomePage() {
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
             <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
                 Exclusive Diwali Offers
               </h2>
               <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-                <div className="bg-gradient-to-br from-yellow-400 to-pink-500 rounded-lg p-6 text-black">
+                <div className="bg-linear-to-br from-yellow-400 to-pink-500 rounded-lg p-6 text-black">
                   <h3 className="text-xl md:text-2xl font-bold mb-4">
                     Buy 2 Get 1 Free
                   </h3>
@@ -501,7 +501,7 @@ export default function HomePage() {
                     Shop Now
                   </button>
                 </div>
-                <div className="bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg p-6 text-white">
+                <div className="bg-linear-to-br from-purple-600 to-pink-500 rounded-lg p-6 text-white">
                   <h3 className="text-xl md:text-2xl font-bold mb-4">
                     20% Off on Decor
                   </h3>
@@ -518,7 +518,7 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
               What Our Customers Say
             </h2>
             <ReviewCarousel reviews={reviews} />
@@ -527,7 +527,7 @@ export default function HomePage() {
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
             <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12 text-center">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
                 Stay Illuminated
               </h2>
               <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 text-gray-300">
@@ -538,11 +538,11 @@ export default function HomePage() {
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="text-black bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 md:py-3 md:px-6 w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="text-black bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 md:py-3 md:px-6 w-full md:w-96 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                 />
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full hover:opacity-90 transition-opacity"
+                  className="bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full hover:opacity-90 transition-opacity"
                   onClick={(event) => {
                     event.preventDefault();
                     alert("Thank you for subscribing!");
