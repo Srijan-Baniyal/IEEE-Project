@@ -26,8 +26,8 @@ export default function AboutPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
-      <nav className="fixed top-0 right-0 left-0 z-50 bg-white bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
+    <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black">
+      <nav className="fixed top-0 right-0 left-0 z-50 bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
         <div className="container mx-auto px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between">
             <Link
@@ -99,7 +99,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="mt-8 grid w-full max-w-6xl grid-cols-1 gap-6 px-4 sm:mt-12 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3">
-          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+          <div className="transform rounded-2xl bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
             <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Tech Stack
             </h2>
@@ -115,7 +115,7 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+          <div className="transform rounded-2xl bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
             <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Features
             </h2>
@@ -130,7 +130,7 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+          <div className="transform rounded-2xl bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
             <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Get in Touch
             </h2>

@@ -2,12 +2,16 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Gift,
   Home,
   Info,
   Menu,
   MessageCircle,
   Search,
+  Shield,
   ShoppingCart,
+  Sparkles,
+  Truck,
   X,
 } from "lucide-react";
 import Image, { type StaticImageData } from "next/image";
@@ -56,7 +60,7 @@ const ProductCard = ({
   addToCart: (product: Product) => void;
 }) => (
   <motion.div
-    className="overflow-hidden rounded-lg bg-white bg-opacity-10 shadow-lg backdrop-blur-lg backdrop-filter"
+    className="overflow-hidden rounded-lg bg-opacity-10 shadow-lg backdrop-blur-lg backdrop-filter"
     whileHover={{ scale: 1.05 }}
   >
     <div className="relative h-64">
@@ -192,7 +196,7 @@ const CartSidebar = ({
   </AnimatePresence>
 );
 
-const ReviewCarousel = ({
+const _ReviewCarousel = ({
   reviews,
 }: {
   reviews: { name: string; text: string }[];
@@ -221,7 +225,7 @@ const ReviewCarousel = ({
             initial={{ opacity: 0 }}
             key={review.name}
           >
-            <div className="h-full rounded-lg bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter">
+            <div className="h-full rounded-lg bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter">
               <p className="mb-4 italic">&quot;{review.text}&quot;</p>
               <p className="font-bold text-yellow-400">{review.name}</p>
             </div>
@@ -236,6 +240,7 @@ export default function HomePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [subscribeMessage, setSubscribeMessage] = useState("");
 
   const products: Product[] = [
     { id: 1, name: "Royal Diya", price: 49.99, image: Diya },
@@ -300,7 +305,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
-      <nav className="fixed top-0 right-0 left-0 z-50 bg-white bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
+      <nav className="fixed top-0 right-0 left-0 z-50 bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -327,7 +332,7 @@ export default function HomePage() {
               />
               <div className="relative">
                 <input
-                  className="rounded-full bg-white bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
+                  className="rounded-full bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                   placeholder="Search..."
                   type="text"
                 />
@@ -387,7 +392,7 @@ export default function HomePage() {
                 />
                 <div className="relative mt-3">
                   <input
-                    className="w-full rounded-full bg-white bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
+                    className="w-full rounded-full bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                     placeholder="Search..."
                     type="text"
                   />
@@ -427,7 +432,7 @@ export default function HomePage() {
       <main className="pt-24">
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col items-center rounded-2xl bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:flex-row md:p-12">
+            <div className="flex flex-col items-center rounded-2xl bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:flex-row md:p-12">
               <div className="mb-8 md:mb-0 md:w-1/2">
                 <motion.h1
                   animate={{ opacity: 1, y: 0 }}
@@ -473,6 +478,76 @@ export default function HomePage() {
                 </motion.div>
               </div>
             </div>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="mb-4 flex justify-center">
+                  <Sparkles className="h-12 w-12 text-yellow-400" />
+                </div>
+                <h3 className="mb-2 font-bold text-lg text-white">
+                  Premium Quality
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  Handcrafted with finest materials
+                </p>
+              </motion.div>
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="mb-4 flex justify-center">
+                  <Truck className="h-12 w-12 text-pink-400" />
+                </div>
+                <h3 className="mb-2 font-bold text-lg text-white">
+                  Fast Delivery
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  Free shipping on orders above ₹999
+                </p>
+              </motion.div>
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="mb-4 flex justify-center">
+                  <Shield className="h-12 w-12 text-purple-400" />
+                </div>
+                <h3 className="mb-2 font-bold text-lg text-white">
+                  Secure Payment
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  100% safe and secure checkout
+                </p>
+              </motion.div>
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="mb-4 flex justify-center">
+                  <Gift className="h-12 w-12 text-red-400" />
+                </div>
+                <h3 className="mb-2 font-bold text-lg text-white">
+                  Gift Wrapping
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  Beautiful packaging for every order
+                </p>
+              </motion.div>
+            </div>
           </div>
         </section>
         <section className="py-12 md:py-20">
@@ -493,7 +568,7 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="rounded-2xl bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:p-12">
+            <div className="rounded-2xl bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:p-12">
               <h2 className="mb-6 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-center font-bold text-2xl text-transparent md:mb-8 md:text-3xl lg:text-4xl">
                 Exclusive Diwali Offers
               </h2>
@@ -518,7 +593,7 @@ export default function HomePage() {
                     Luxurious wall hangings and table decorations
                   </p>
                   <button
-                    className="rounded-full bg-white px-6 py-2 font-bold text-black transition-colors hover:bg-opacity-80"
+                    className="rounded-full px-6 py-2 font-bold text-black transition-colors hover:bg-opacity-80"
                     type="button"
                   >
                     Explore
@@ -533,12 +608,38 @@ export default function HomePage() {
             <h2 className="mb-8 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-center font-bold text-2xl text-transparent md:mb-12 md:text-3xl lg:text-4xl">
               What Our Customers Say
             </h2>
-            <ReviewCarousel reviews={reviews} />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {reviews.map((review, index) => (
+                <motion.div
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-lg bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter"
+                  initial={{ opacity: 0, y: 20 }}
+                  key={review.name}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <div className="mb-4 flex items-center space-x-1">
+                    {[...new Array(5)].map((_, i) => (
+                      <span
+                        className="text-yellow-400"
+                        key={`star-${review.name}-${i}`}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mb-4 text-gray-300 italic">
+                    &quot;{review.text}&quot;
+                  </p>
+                  <p className="font-bold text-yellow-400">{review.name}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="rounded-2xl bg-white bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter md:p-12">
+            <div className="rounded-2xl bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter md:p-12">
               <h2 className="mb-4 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text font-bold text-2xl text-transparent md:mb-6 md:text-3xl lg:text-4xl">
                 Stay Illuminated
               </h2>
@@ -546,18 +647,52 @@ export default function HomePage() {
                 Subscribe to our newsletter for exclusive offers and Diwali
                 inspiration
               </p>
-              <form className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+              {subscribeMessage.length > 0 && (
+                <motion.div
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 rounded-full bg-green-500 bg-opacity-20 px-6 py-3 text-green-300"
+                  initial={{ opacity: 0, y: -10 }}
+                >
+                  {subscribeMessage}
+                </motion.div>
+              )}
+              <form
+                className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const form = event.currentTarget;
+                  const emailInput = form.elements.namedItem(
+                    "email"
+                  ) as HTMLInputElement;
+                  const nameInput = form.elements.namedItem(
+                    "name"
+                  ) as HTMLInputElement;
+
+                  if (emailInput?.value && nameInput?.value) {
+                    setSubscribeMessage(
+                      `Thank you for subscribing, ${nameInput.value}! Check your inbox for exclusive offers.`
+                    );
+                    form.reset();
+                    setTimeout(() => setSubscribeMessage(""), 5000);
+                  }
+                }}
+              >
                 <input
-                  className="w-full rounded-full bg-white bg-opacity-20 px-4 py-2 text-black backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400 md:w-96 md:px-6 md:py-3"
+                  className="w-full rounded-full bg-white bg-opacity-90 px-4 py-2 text-black placeholder-gray-600 focus:outline-hidden focus:ring-2 focus:ring-yellow-400 md:w-64 md:px-6 md:py-3"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  type="text"
+                />
+                <input
+                  className="w-full rounded-full bg-white bg-opacity-90 px-4 py-2 text-black placeholder-gray-600 focus:outline-hidden focus:ring-2 focus:ring-yellow-400 md:w-80 md:px-6 md:py-3"
+                  name="email"
                   placeholder="Your email address"
+                  required
                   type="email"
                 />
                 <button
-                  className="rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-6 py-2 font-bold text-black transition-opacity hover:opacity-90 md:px-8 md:py-3"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    console.log("Thank you for subscribing!");
-                  }}
+                  className="w-full rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-6 py-2 font-bold text-black transition-all hover:scale-105 hover:opacity-90 md:w-auto md:px-8 md:py-3"
                   type="submit"
                 >
                   Subscribe
