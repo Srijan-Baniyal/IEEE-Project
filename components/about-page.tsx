@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Info, MessageCircle, Menu } from "lucide-react";
+import { Home, Info, Menu, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -14,8 +14,8 @@ const NavItem = ({
   l_text: string;
 }) => (
   <Link
+    className="flex items-center space-x-3 rounded-full from-pink-500 to-yellow-400 px-5 py-2 transition-all duration-300 hover:bg-linear-to-r hover:text-black"
     href={l_text}
-    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-linear-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
   >
     {icon}
     <span className="font-medium">{text}</span>
@@ -27,65 +27,66 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-md transition-transform duration-300 ease-in-out">
-        <div className="container mx-auto px-4 sm:px-6 py-4">
-          <div className="flex justify-between items-center">
+      <nav className="fixed top-0 right-0 left-0 z-50 bg-white bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
+        <div className="container mx-auto px-4 py-4 sm:px-6">
+          <div className="flex items-center justify-between">
             <Link
+              className="bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text font-extrabold text-2xl text-transparent tracking-wide sm:text-3xl"
               href="/"
-              className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500 tracking-wide"
             >
               Diwali Luxe
             </Link>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden items-center space-x-8 md:flex">
               <NavItem
-                icon={<Home className="w-6 h-6" />}
-                text="Home"
+                icon={<Home className="h-6 w-6" />}
                 l_text="/"
+                text="Home"
               />
               <NavItem
-                icon={<Info className="w-6 h-6" />}
-                text="About"
+                icon={<Info className="h-6 w-6" />}
                 l_text="/about"
+                text="About"
               />
               <NavItem
-                icon={<MessageCircle className="w-6 h-6" />}
-                text="Contact"
+                icon={<MessageCircle className="h-6 w-6" />}
                 l_text="/contact"
+                text="Contact"
               />
             </div>
             <button
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              type="button"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
-        {isMenuOpen && (
+        {isMenuOpen ? (
           <div className="md:hidden">
             <NavItem
-              icon={<Home className="w-6 h-6" />}
-              text="Home"
+              icon={<Home className="h-6 w-6" />}
               l_text="/"
+              text="Home"
             />
             <NavItem
-              icon={<Info className="w-6 h-6" />}
-              text="About"
+              icon={<Info className="h-6 w-6" />}
               l_text="/about"
+              text="About"
             />
             <NavItem
-              icon={<MessageCircle className="w-6 h-6" />}
-              text="Contact"
+              icon={<MessageCircle className="h-6 w-6" />}
               l_text="/contact"
+              text="Contact"
             />
           </div>
-        )}
+        ) : null}
       </nav>
-      <div className="flex flex-col justify-center items-center min-h-screen space-y-8 sm:space-y-12 px-4 text-center pt-20 sm:pt-0">
-        <div className="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-linear-to-r from-yellow-400 to-pink-500 drop-shadow-md">
+      <div className="flex min-h-screen flex-col items-center justify-center space-y-8 px-4 pt-20 text-center sm:space-y-12 sm:pt-0">
+        <div className="bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text font-extrabold text-4xl text-transparent drop-shadow-md sm:text-6xl">
           About Diwali Luxe
         </div>
-        <div className="max-w-3xl text-base sm:text-lg leading-relaxed tracking-wide text-white/80">
+        <div className="max-w-3xl text-base text-white/80 leading-relaxed tracking-wide sm:text-lg">
           <p>
             Welcome to{" "}
             <span className="font-semibold text-yellow-400">Diwali Luxe</span>,
@@ -97,9 +98,9 @@ export default function AboutPage() {
             <span className="font-semibold text-yellow-400">IEEE</span>.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 mt-8 sm:mt-12 w-full max-w-6xl px-4">
-          <div className="p-6 sm:p-8 bg-white bg-opacity-10 rounded-2xl backdrop-blur-md shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl duration-300">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-yellow-400">
+        <div className="mt-8 grid w-full max-w-6xl grid-cols-1 gap-6 px-4 sm:mt-12 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3">
+          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+            <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Tech Stack
             </h2>
             <ul className="space-y-2 text-base sm:text-lg">
@@ -114,8 +115,8 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="p-6 sm:p-8 bg-white bg-opacity-10 rounded-2xl backdrop-blur-md shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl duration-300">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-yellow-400">
+          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+            <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Features
             </h2>
             <ul className="space-y-2 text-base sm:text-lg">
@@ -129,8 +130,8 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="p-6 sm:p-8 bg-white bg-opacity-10 rounded-2xl backdrop-blur-md shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl duration-300">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-yellow-400">
+          <div className="transform rounded-2xl bg-white bg-opacity-10 p-6 shadow-xl backdrop-blur-md transition-transform duration-300 hover:scale-105 hover:shadow-2xl sm:p-8">
+            <h2 className="mb-4 font-semibold text-2xl text-yellow-400 sm:text-3xl">
               Get in Touch
             </h2>
             <p className="text-base sm:text-lg">
@@ -139,7 +140,7 @@ export default function AboutPage() {
               it&apos;s important to note that it doesn't actually exist... yet!
               🎉
             </p>
-            <p className="text-base sm:text-lg mt-4">
+            <p className="mt-4 text-base sm:text-lg">
               But here&apos;s something fun: if you try to navigate to any
               non-existing page, like the Contact page, you'll get redirected to
               a custom{" "}
@@ -150,7 +151,7 @@ export default function AboutPage() {
               quickly understand when a route doesn&apos;t exist, keeping your
               browsing experience smooth.
             </p>
-            <p className="text-base sm:text-lg mt-4">
+            <p className="mt-4 text-base sm:text-lg">
               Try it out by clicking on the &quot;Contact&quot; button above and
               discover the 404 page in action!
             </p>

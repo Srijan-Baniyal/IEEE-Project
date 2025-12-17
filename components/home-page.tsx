@@ -1,36 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Home,
   Info,
-  MessageCircle,
-  ShoppingCart,
-  Search,
-  X,
   Menu,
+  MessageCircle,
+  Search,
+  ShoppingCart,
+  X,
 } from "lucide-react";
-import Image from "next/image";
-import React from "react";
-import HomeImage from "@/public/Home.jpg";
-import Rangoli from "@/public/Rangoli.jpg";
-import Diya from "@/public/Diya.jpg";
-import Lantern from "@/public/Lantern.jpg";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
+import type React from "react";
+import { useEffect, useState } from "react";
+import Diya from "@/public/Diya.jpg";
+import HomeImage from "@/public/Home.jpg";
+import Lantern from "@/public/Lantern.jpg";
+import Rangoli from "@/public/Rangoli.jpg";
 
-import { StaticImageData } from "next/image";
-
-interface Product {
+type Product = {
   id: number;
   name: string;
   price: number;
   image: StaticImageData;
-}
+};
 
-interface CartItem extends Product {
+type CartItem = Product & {
   quantity: number;
-}
+};
 
 const NavItem = ({
   icon,
@@ -42,8 +40,8 @@ const NavItem = ({
   l_text: string;
 }) => (
   <Link
+    className="flex items-center space-x-3 rounded-full from-pink-500 to-yellow-400 px-5 py-2 transition-all duration-300 hover:bg-linear-to-r hover:text-black"
     href={l_text}
-    className="flex items-center space-x-3 px-5 py-2 rounded-full hover:bg-linear-to-r from-pink-500 to-yellow-400 hover:text-black transition-all duration-300"
   >
     {icon}
     <span className="font-medium">{text}</span>
@@ -58,24 +56,24 @@ const ProductCard = ({
   addToCart: (product: Product) => void;
 }) => (
   <motion.div
+    className="overflow-hidden rounded-lg bg-white bg-opacity-10 shadow-lg backdrop-blur-lg backdrop-filter"
     whileHover={{ scale: 1.05 }}
-    className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg overflow-hidden shadow-lg"
   >
     <div className="relative h-64">
       <Image
-        src={product.image}
         alt={product.name}
         layout="fill"
         objectFit="cover"
+        src={product.image}
       />
     </div>
     <div className="p-4">
-      <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-      <p className="text-yellow-400 font-bold">₹{product.price.toFixed(2)}</p>
+      <h3 className="mb-2 font-semibold text-lg">{product.name}</h3>
+      <p className="font-bold text-yellow-400">₹{product.price.toFixed(2)}</p>
       <button
-        type="button"
+        className="mt-4 w-full rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-4 py-2 font-bold text-black transition-opacity hover:opacity-90"
         onClick={() => addToCart(product)}
-        className="mt-4 w-full bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity"
+        type="button"
       >
         Add to Cart
       </button>
@@ -97,22 +95,22 @@ const CartSidebar = ({
   updateQuantity: (productId: number, newQuantity: number) => void;
 }) => (
   <AnimatePresence>
-    {isOpen && (
+    {isOpen ? (
       <motion.div
-        initial={{ x: "100%" }}
         animate={{ x: 0 }}
+        className="fixed top-0 right-0 z-50 h-full w-full overflow-y-auto bg-gray-900 shadow-lg sm:w-96"
         exit={{ x: "100%" }}
+        initial={{ x: "100%" }}
         transition={{ type: "tween" }}
-        className="fixed top-0 right-0 h-full w-full sm:w-96 bg-gray-900 shadow-lg z-50 overflow-y-auto"
       >
         <div className="p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Your Cart</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-bold text-2xl">Your Cart</h2>
             <button
-              type="button"
-              onClick={onClose}
               className="text-gray-500 hover:text-white"
+              onClick={onClose}
               title="Close"
+              type="button"
             >
               <X size={24} />
             </button>
@@ -123,43 +121,46 @@ const CartSidebar = ({
             <>
               {cartItems.map((item) => (
                 <div
+                  className="flex items-center justify-between border-gray-700 border-b py-4"
                   key={item.id}
-                  className="flex items-center justify-between py-4 border-b border-gray-700"
                 >
                   <div className="flex items-center">
                     <Image
-                      src={item.image}
                       alt={item.name}
-                      width={50}
-                      height={50}
                       className="rounded-sm"
+                      height={50}
+                      src={item.image}
+                      width={50}
                     />
                     <div className="ml-4">
                       <h3 className="font-semibold">{item.name}</h3>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-gray-400 text-sm">
                         ₹{item.price.toFixed(2)}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <button
+                      className="rounded-l bg-gray-800 px-2 py-1"
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="px-2 py-1 bg-gray-800 rounded-l"
+                      type="button"
                     >
                       -
                     </button>
-                    <span className="px-4 py-1 bg-gray-800">
+                    <span className="bg-gray-800 px-4 py-1">
                       {item.quantity}
                     </span>
                     <button
+                      className="rounded-r bg-gray-800 px-2 py-1"
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="px-2 py-1 bg-gray-800 rounded-r"
+                      type="button"
                     >
                       +
                     </button>
                     <button
-                      onClick={() => removeFromCart(item.id)}
                       className="ml-4 text-red-500"
+                      onClick={() => removeFromCart(item.id)}
+                      type="button"
                     >
                       Remove
                     </button>
@@ -167,7 +168,7 @@ const CartSidebar = ({
                 </div>
               ))}
               <div className="mt-4">
-                <p className="text-xl font-bold">
+                <p className="font-bold text-xl">
                   Total: ₹
                   {cartItems
                     .reduce(
@@ -176,7 +177,10 @@ const CartSidebar = ({
                     )
                     .toFixed(2)}
                 </p>
-                <button className="mt-4 w-full bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-4 rounded-full hover:opacity-90 transition-opacity">
+                <button
+                  className="mt-4 w-full rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-4 py-2 font-bold text-black transition-opacity hover:opacity-90"
+                  type="button"
+                >
                   Checkout
                 </button>
               </div>
@@ -184,7 +188,7 @@ const CartSidebar = ({
           )}
         </div>
       </motion.div>
-    )}
+    ) : null}
   </AnimatePresence>
 );
 
@@ -206,18 +210,18 @@ const ReviewCarousel = ({
     <div className="overflow-hidden">
       <motion.div
         animate={{ x: `-${currentIndex * 100}%` }}
-        transition={{ type: "tween", ease: "easeInOut" }}
         className="flex"
+        transition={{ type: "tween", ease: "easeInOut" }}
       >
-        {reviews.map((review, index) => (
+        {reviews.map((review) => (
           <motion.div
-            key={index}
-            className="shrink-0 w-full md:w-1/3 p-4"
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            className="w-full shrink-0 p-4 md:w-1/3"
             exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            key={review.name}
           >
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 h-full">
+            <div className="h-full rounded-lg bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter">
               <p className="mb-4 italic">&quot;{review.text}&quot;</p>
               <p className="font-bold text-yellow-400">{review.name}</p>
             </div>
@@ -296,46 +300,47 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-900 via-pink-900 to-black text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg shadow-md transition-transform duration-300 ease-in-out">
+      <nav className="fixed top-0 right-0 left-0 z-50 bg-white bg-opacity-10 shadow-md backdrop-blur-lg backdrop-filter transition-transform duration-300 ease-in-out">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <Link
+              className="bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text font-extrabold text-3xl text-transparent tracking-wide"
               href="/"
-              className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500 tracking-wide"
             >
               Diwali Luxe
             </Link>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden items-center space-x-8 md:flex">
               <NavItem
-                icon={<Home className="w-6 h-6" />}
-                text="Home"
+                icon={<Home className="h-6 w-6" />}
                 l_text="/"
+                text="Home"
               />
               <NavItem
-                icon={<Info className="w-6 h-6" />}
-                text="About"
+                icon={<Info className="h-6 w-6" />}
                 l_text="/about"
+                text="About"
               />
               <NavItem
-                icon={<MessageCircle className="w-6 h-6" />}
-                text="Contact"
+                icon={<MessageCircle className="h-6 w-6" />}
                 l_text="/contact"
+                text="Contact"
               />
               <div className="relative">
                 <input
-                  type="text"
+                  className="rounded-full bg-white bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                   placeholder="Search..."
-                  className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
+                  type="text"
                 />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
               </div>
               <button
-                className="bg-yellow-400 text-black rounded-full p-2 relative"
+                className="relative rounded-full bg-yellow-400 p-2 text-black"
                 onClick={() => setIsCartOpen(true)}
+                type="button"
               >
-                <ShoppingCart className="w-5 h-5" />
+                <ShoppingCart className="h-5 w-5" />
                 {cartItems.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-xs">
                     {cartItems.reduce(
                       (total, item) => total + item.quantity,
                       0
@@ -344,61 +349,62 @@ export default function HomePage() {
                 )}
               </button>
             </div>
-            <div className="md:hidden flex items-center">
+            <div className="flex items-center md:hidden">
               <button
-                className="text-white p-2"
+                className="p-2 text-white"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                type="button"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="h-6 w-6" />
               </button>
             </div>
           </div>
         </div>
         {/* Mobile menu */}
         <AnimatePresence>
-          {isMenuOpen && (
+          {isMenuOpen ? (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               className="md:hidden"
+              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -20 }}
             >
-              <div className="px-2 pt-2 pb-3 space-y-1">
+              <div className="space-y-1 px-2 pt-2 pb-3">
                 <NavItem
-                  icon={<Home className="w-6 h-6" />}
-                  text="Home"
+                  icon={<Home className="h-6 w-6" />}
                   l_text="/"
+                  text="Home"
                 />
                 <NavItem
-                  icon={<Info className="w-6 h-6" />}
-                  text="About"
+                  icon={<Info className="h-6 w-6" />}
                   l_text="/about"
+                  text="About"
                 />
                 <NavItem
-                  icon={<MessageCircle className="w-6 h-6" />}
-                  text="Contact"
+                  icon={<MessageCircle className="h-6 w-6" />}
                   l_text="/contact"
+                  text="Contact"
                 />
                 <div className="relative mt-3">
                   <input
-                    type="text"
+                    className="w-full rounded-full bg-white bg-opacity-20 px-4 py-2 pl-10 backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                     placeholder="Search..."
-                    className="w-full bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 pl-10 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
+                    type="text"
                   />
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 </div>
                 <button
-                  type="button"
-                  className="w-full mt-3 bg-yellow-400 text-black rounded-full p-2 relative flex items-center justify-center"
+                  className="relative mt-3 flex w-full items-center justify-center rounded-full bg-yellow-400 p-2 text-black"
                   onClick={() => {
                     setIsCartOpen(true);
                     setIsMenuOpen(false);
                   }}
+                  type="button"
                 >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  <ShoppingCart className="mr-2 h-5 w-5" />
                   <span>Cart</span>
                   {cartItems.length > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-xs">
                       {cartItems.reduce(
                         (total, item) => total + item.quantity,
                         0
@@ -408,61 +414,61 @@ export default function HomePage() {
                 </button>
               </div>
             </motion.div>
-          )}
+          ) : null}
         </AnimatePresence>
       </nav>
       <CartSidebar
+        cartItems={cartItems}
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
         removeFromCart={removeFromCart}
         updateQuantity={updateQuantity}
       />
       <main className="pt-24">
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12 flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 mb-8 md:mb-0">
+            <div className="flex flex-col items-center rounded-2xl bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:flex-row md:p-12">
+              <div className="mb-8 md:mb-0 md:w-1/2">
                 <motion.h1
-                  initial={{ opacity: 0, y: -50 }}
                   animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 bg-linear-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text font-bold text-3xl text-transparent md:mb-6 md:text-4xl lg:text-5xl xl:text-6xl"
+                  initial={{ opacity: 0, y: -50 }}
                   transition={{ duration: 0.8 }}
-                  className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-linear-to-r from-yellow-400 via-red-500 to-pink-500"
                 >
                   Elevate Your Diwali
                 </motion.h1>
                 <motion.p
-                  initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  className="mb-6 text-base text-gray-300 md:mb-8 md:text-lg lg:text-xl xl:text-2xl"
+                  initial={{ opacity: 0 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
-                  className="text-base md:text-lg lg:text-xl xl:text-2xl mb-6 md:mb-8 text-gray-300"
                 >
                   Discover our exquisite collection of premium Diwali decor and
                   gifts online from &quot;<b>Diwali Luxe</b>&quot;
                 </motion.p>
                 <motion.button
+                  className="rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-6 py-2 font-bold text-base text-black md:px-8 md:py-3 md:text-lg"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full text-base md:text-lg"
                 >
                   Shop Now
                 </motion.button>
               </div>
               <div className="md:w-1/2">
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
+                  className="relative h-auto w-full overflow-hidden rounded-lg sm:h-7.5 md:h-87.5 lg:h-100 xl:h-112.5"
+                  initial={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.8 }}
-                  className="relative w-full h-auto sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg overflow-hidden"
                 >
                   <Image
-                    src={HomeImage}
                     alt="Luxury Diwali Decor"
-                    layout="responsive"
-                    width={450}
-                    height={450}
-                    objectFit="cover"
                     className="custom-image-position md:object-center"
+                    height={450}
+                    layout="responsive"
+                    objectFit="cover"
+                    src={HomeImage}
+                    width={450}
                   />
                 </motion.div>
               </div>
@@ -471,15 +477,15 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
+            <h2 className="mb-8 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-center font-bold text-2xl text-transparent md:mb-12 md:text-3xl lg:text-4xl">
               Featured Collections
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {products.map((product) => (
                 <ProductCard
+                  addToCart={addToCart}
                   key={product.id}
                   product={product}
-                  addToCart={addToCart}
                 />
               ))}
             </div>
@@ -487,28 +493,34 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
+            <div className="rounded-2xl bg-white bg-opacity-10 p-6 backdrop-blur-lg backdrop-filter md:p-12">
+              <h2 className="mb-6 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-center font-bold text-2xl text-transparent md:mb-8 md:text-3xl lg:text-4xl">
                 Exclusive Diwali Offers
               </h2>
-              <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-                <div className="bg-linear-to-br from-yellow-400 to-pink-500 rounded-lg p-6 text-black">
-                  <h3 className="text-xl md:text-2xl font-bold mb-4">
+              <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+                <div className="rounded-lg bg-linear-to-br from-yellow-400 to-pink-500 p-6 text-black">
+                  <h3 className="mb-4 font-bold text-xl md:text-2xl">
                     Buy 2 Get 1 Free
                   </h3>
                   <p className="mb-4">On all premium diyas and candles</p>
-                  <button className="bg-black text-white font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
+                  <button
+                    className="rounded-full bg-black px-6 py-2 font-bold text-white transition-colors hover:bg-opacity-80"
+                    type="button"
+                  >
                     Shop Now
                   </button>
                 </div>
-                <div className="bg-linear-to-br from-purple-600 to-pink-500 rounded-lg p-6 text-white">
-                  <h3 className="text-xl md:text-2xl font-bold mb-4">
+                <div className="rounded-lg bg-linear-to-br from-purple-600 to-pink-500 p-6 text-white">
+                  <h3 className="mb-4 font-bold text-xl md:text-2xl">
                     20% Off on Decor
                   </h3>
                   <p className="mb-4">
                     Luxurious wall hangings and table decorations
                   </p>
-                  <button className="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-opacity-80 transition-colors">
+                  <button
+                    className="rounded-full bg-white px-6 py-2 font-bold text-black transition-colors hover:bg-opacity-80"
+                    type="button"
+                  >
                     Explore
                   </button>
                 </div>
@@ -518,7 +530,7 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
+            <h2 className="mb-8 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-center font-bold text-2xl text-transparent md:mb-12 md:text-3xl lg:text-4xl">
               What Our Customers Say
             </h2>
             <ReviewCarousel reviews={reviews} />
@@ -526,27 +538,27 @@ export default function HomePage() {
         </section>
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-6 md:p-12 text-center">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
+            <div className="rounded-2xl bg-white bg-opacity-10 p-6 text-center backdrop-blur-lg backdrop-filter md:p-12">
+              <h2 className="mb-4 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text font-bold text-2xl text-transparent md:mb-6 md:text-3xl lg:text-4xl">
                 Stay Illuminated
               </h2>
-              <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 text-gray-300">
+              <p className="mb-6 text-base text-gray-300 md:mb-8 md:text-lg lg:text-xl">
                 Subscribe to our newsletter for exclusive offers and Diwali
                 inspiration
               </p>
-              <form className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+              <form className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0">
                 <input
-                  type="email"
+                  className="w-full rounded-full bg-white bg-opacity-20 px-4 py-2 text-black backdrop-blur-lg backdrop-filter focus:outline-hidden focus:ring-2 focus:ring-yellow-400 md:w-96 md:px-6 md:py-3"
                   placeholder="Your email address"
-                  className="text-black bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full py-2 px-4 md:py-3 md:px-6 w-full md:w-96 focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
+                  type="email"
                 />
                 <button
-                  type="submit"
-                  className="bg-linear-to-r from-yellow-400 to-pink-500 text-black font-bold py-2 px-6 md:py-3 md:px-8 rounded-full hover:opacity-90 transition-opacity"
+                  className="rounded-full bg-linear-to-r from-yellow-400 to-pink-500 px-6 py-2 font-bold text-black transition-opacity hover:opacity-90 md:px-8 md:py-3"
                   onClick={(event) => {
                     event.preventDefault();
-                    alert("Thank you for subscribing!");
+                    console.log("Thank you for subscribing!");
                   }}
+                  type="submit"
                 >
                   Subscribe
                 </button>
